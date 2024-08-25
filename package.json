@@ -1,0 +1,25 @@
+{
+  "name": "@omnedia/ngx-marquee",
+  "description": "A simple component library to create an infinite scrolling marquee with your content.",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "npm",
+    "animation",
+    "marquee",
+    "container",
+    "scroll"
+  ],
+  "repository": {
+    "url": "https://github.com/omnedia/ngx-marquee"
+  },
+  "author": "Markus Block (markus.block@omnedia.com)",
+  "license": "MIT"
+}

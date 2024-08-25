@@ -1,0 +1,32 @@
+<div class="om-marquee" [class.direction-row]="!vertical" [class.direction-column]="vertical" [ngStyle]="style"
+    [ngClass]="styleClass">
+    <div class="om-marquee-invisible">
+        <ng-content></ng-content>
+    </div>
+    <div class="om-marquee-content">
+        <div class="om-marquee-item-wrapper">
+            @for (content of marqueeElements; track $index) {
+            <div class="om-marquee-item" [innerHTML]="content">
+            </div>
+            }
+        </div>
+        <div class="om-marquee-item-wrapper">
+            @for (content of marqueeElements; track $index) {
+            <div class="om-marquee-item" [innerHTML]="content">
+            </div>
+            }
+        </div>
+        <div class="om-marquee-item-wrapper">
+            @for (content of marqueeElements; track $index) {
+            <div class="om-marquee-item" [innerHTML]="content">
+            </div>
+            }
+        </div>
+        <div class="om-marquee-item-wrapper">
+            @for (content of marqueeElements; track $index) {
+            <div class="om-marquee-item" [innerHTML]="content">
+            </div>
+            }
+        </div>
+    </div>
+</div>
