@@ -5,6 +5,7 @@ import {
   ContentChildren,
   ElementRef,
   Input,
+  OnDestroy,
   QueryList,
   ViewChild,
 } from "@angular/core";
@@ -17,7 +18,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
   templateUrl: "./ngx-marquee.component.html",
   styleUrl: "./ngx-marquee.component.scss",
 })
-export class NgxMarqueeComponent implements AfterViewInit {
+export class NgxMarqueeComponent implements AfterViewInit, OnDestroy {
   @ViewChild("OmMarquee") marqueeRef!: ElementRef<HTMLElement>;
 
   @ContentChildren("OmMarqueeContent") elementRefs?: QueryList<
@@ -90,5 +91,11 @@ export class NgxMarqueeComponent implements AfterViewInit {
       }
     });
     this.intersectionObserver.observe(this.marqueeRef.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+    }
   }
 }
