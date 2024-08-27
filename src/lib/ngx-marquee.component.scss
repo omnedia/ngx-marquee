@@ -56,6 +56,10 @@
   .om-marquee-content:hover > .om-marquee-item-wrapper {
     animation-play-state: var(--om-marquee-pause);
   }
+
+  .om-marquee-content.outOfView > .om-marquee-item-wrapper {
+    animation-play-state: paused;
+  }
 }
 
 @keyframes om-marquee-row {
