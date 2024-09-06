@@ -10,6 +10,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: "om-marquee",
@@ -71,14 +72,10 @@ export class NgxMarqueeComponent implements AfterViewInit, OnDestroy {
   constructor(private readonly sanitizer: DomSanitizer) {}
 
   ngAfterViewInit(): void {
-    if (!this.elementRefs) {
-      return;
-    }
+    this.getMarqueeContent();
 
-    this.marqueeElements = this.elementRefs?.toArray().map((ref) => {
-      return this.sanitizer.bypassSecurityTrustHtml(
-        ref.nativeElement.outerHTML
-      );
+    this.elementRefs?.changes.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.getMarqueeContent();
     });
 
     this.intersectionObserver = new IntersectionObserver(([entry]) => {
@@ -93,9 +90,26 @@ export class NgxMarqueeComponent implements AfterViewInit, OnDestroy {
     this.intersectionObserver.observe(this.marqueeRef.nativeElement);
   }
 
+  destroy$ = new Subject<void>();
+
   ngOnDestroy(): void {
     if (this.intersectionObserver) {
       this.intersectionObserver.disconnect();
     }
+
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private getMarqueeContent(): void {
+    if (!this.elementRefs) {
+      return;
+    }
+
+    this.marqueeElements = this.elementRefs?.toArray().map((ref) => {
+      return this.sanitizer.bypassSecurityTrustHtml(
+        ref.nativeElement.outerHTML
+      );
+    });
   }
 }
