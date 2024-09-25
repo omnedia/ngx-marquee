@@ -1,15 +1,17 @@
-import { CommonModule } from "@angular/common";
+import {CommonModule, isPlatformBrowser} from "@angular/common";
 import {
   AfterViewInit,
   Component,
   ContentChildren,
   ElementRef,
+  Inject,
   Input,
   OnDestroy,
+  PLATFORM_ID,
   QueryList,
   ViewChild,
 } from "@angular/core";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {Subject, takeUntil} from "rxjs";
 
 @Component({
@@ -69,7 +71,11 @@ export class NgxMarqueeComponent implements AfterViewInit, OnDestroy {
   isInView = false;
   private intersectionObserver?: IntersectionObserver;
 
-  constructor(private readonly sanitizer: DomSanitizer) {}
+  constructor(
+    private readonly sanitizer: DomSanitizer,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {
+  }
 
   ngAfterViewInit(): void {
     this.getMarqueeContent();
@@ -78,16 +84,18 @@ export class NgxMarqueeComponent implements AfterViewInit, OnDestroy {
       this.getMarqueeContent();
     });
 
-    this.intersectionObserver = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        if (!this.isInView) {
-          this.isInView = true;
+    if (isPlatformBrowser(this.platformId)) {
+      this.intersectionObserver = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          if (!this.isInView) {
+            this.isInView = true;
+          }
+        } else if (this.isInView) {
+          this.isInView = false;
         }
-      } else if (this.isInView) {
-        this.isInView = false;
-      }
-    });
-    this.intersectionObserver.observe(this.marqueeRef.nativeElement);
+      });
+      this.intersectionObserver.observe(this.marqueeRef.nativeElement);
+    }
   }
 
   destroy$ = new Subject<void>();
