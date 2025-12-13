@@ -28,10 +28,10 @@ npm install @omnedia/ngx-marquee
 
 ## Usage
 
-Import the `NgxMarqueeComponent` in your Angular module or component:
+Import the `NgxMarqueeComponent` and `OmMarqueeItemDirective` in your Angular module or component:
 
 ```typescript
-import { NgxMarqueeComponent } from '@omnedia/ngx-marquee';
+import { NgxMarqueeComponent, OmMarqueeItemDirective } from '@omnedia/ngx-marquee';
 
 @Component({
     ...
@@ -39,6 +39,7 @@ import { NgxMarqueeComponent } from '@omnedia/ngx-marquee';
 [
     ...
         NgxMarqueeComponent,
+        OmMarqueeItemDirective,
 ],
 ...
 })
